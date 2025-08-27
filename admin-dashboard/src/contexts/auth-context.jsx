@@ -1,30 +1,49 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
-const AuthContext = createContext();
+import PropTypes from "prop-types";
 
-export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(() => {
-        const stored = localStorage.getItem("user");
-        return stored ? JSON.parse(stored) : null;
-    });
-
-    useEffect(() => {
-        if (user) {
-            localStorage.setItem("user", JSON.stringify(user));
-        } else {
-            localStorage.removeItem("user");
-        }
-    }, [user]);
-
-    const login = (data) => {
-        setUser(data);
-    };
-
-    const logout = () => {
-        setUser(null);
-    };
-
-    return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
+const initialState = {
+    user: null,
+    setUser: () => null,
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const AuthProviderContext = createContext(initialState);
+
+export function AuthProvider({ children, storageKey = "user", ...props }) {
+    const [user, setUserState] = useState(() => {
+        try {
+            const stored = localStorage.getItem(storageKey);
+            return stored ? JSON.parse(stored) : null;
+        } catch {
+            return null;
+        }
+    });
+
+    const setUser = (userData) => {
+        if (userData) {
+            localStorage.setItem(storageKey, JSON.stringify(userData));
+        } else {
+            localStorage.removeItem(storageKey);
+        }
+        setUserState(userData);
+    };
+
+    const value = {
+        user,
+        setUser,
+    };
+
+    return (
+        <AuthProviderContext.Provider
+            value={value}
+            {...props}
+        >
+            {children}
+        </AuthProviderContext.Provider>
+    );
+}
+
+AuthProvider.propTypes = {
+    children: PropTypes.node,
+    storageKey: PropTypes.string,
+};

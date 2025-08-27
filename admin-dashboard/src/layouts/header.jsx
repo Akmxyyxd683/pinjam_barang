@@ -7,22 +7,13 @@ import profileImg from "@/assets/profile-image.jpg";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { useEffect } from "react";
+import { useAuth } from "@/hooks/use-auth";
 
 export const Header = ({ collapsed, setCollapsed }) => {
     const { theme, setTheme } = useTheme();
-    const [user, setUser] = useState(null);
+    const { user } = useAuth();
 
-    useEffect(
-        async () =>
-            await axios
-                .get("http://localhost:3000/auth/users")
-                .then((res) => {
-                    setUser(res.data.data || []);
-                })
-                .catch((err) => {
-                    setItems([]);
-                }),
-    );
+    const profileSrc = user?.profileImage || user?.profile_image || user?.profileImg || user?.image || profileImg;
 
     return (
         <header className="relative z-10 flex h-[60px] items-center justify-between bg-white px-4 shadow-md transition-colors dark:bg-slate-900">
@@ -67,7 +58,7 @@ export const Header = ({ collapsed, setCollapsed }) => {
                 <button className="size-10 overflow-hidden rounded-full">
                     {}
                     <img
-                        src={user?.profile_img}
+                        src={profileSrc}
                         alt="profile image"
                         className="size-full object-cover"
                     />

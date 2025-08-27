@@ -76,11 +76,11 @@ function App() {
     ]);
 
     return (
-        <AuthProvider>
-            <ThemeProvider storageKey="theme">
+        <ThemeProvider storageKey="theme">
+            <AuthProvider>
                 <RouterProvider router={router} />
-            </ThemeProvider>
-        </AuthProvider>
+            </AuthProvider>
+        </ThemeProvider>
     );
 }
 
