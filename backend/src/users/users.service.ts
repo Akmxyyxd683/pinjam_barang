@@ -4,10 +4,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { LoginUserDto } from './dto/user.dto';
 import * as bcrypt from 'bcrypt';
+import { v2 as cloudinary } from 'cloudinary';
 
 @Injectable()
 export class UsersService {
@@ -17,7 +18,27 @@ export class UsersService {
   ) {}
 
   async create(loginUserDto: LoginUserDto): Promise<User> {
-    const { email, name, password, role, no_telp, alamat } = loginUserDto;
+    const { email, name, password, profile_img, role, no_telp, alamat } =
+      loginUserDto;
+
+    let imageUrl: string | null = null;
+
+    if (profile_img) {
+      let toUpload = profile_img;
+
+      const isDataUri = profile_img.startsWith('data:image');
+      const isHttpUrl = /^https?:\/\//i.test(profile_img);
+      if (!isDataUri && !isHttpUrl) {
+        toUpload = `data:image/png;base64,${profile_img}`;
+      }
+
+      const result = await cloudinary.uploader.upload(toUpload, {
+        folder: 'nestjs_items',
+        resource_type: 'image',
+      });
+
+      imageUrl = result.secure_url;
+    }
 
     // Check if user already exists
     const existingUser = await this.usersRepository.findOne({
@@ -31,14 +52,17 @@ export class UsersService {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create new user
-    const user = this.usersRepository.create({
+    const partial: DeepPartial<User> = {
       email,
       name,
       password: hashedPassword,
+      profile_img: imageUrl,
       role,
       no_telp,
       alamat,
-    });
+    };
+
+    const user = this.usersRepository.create(partial);
 
     return this.usersRepository.save(user);
   }
@@ -59,5 +83,11 @@ export class UsersService {
     }
 
     return user;
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.usersRepository.find({
+      select: ['id', 'email', 'name', 'role', 'no_telp', 'alamat'],
+    });
   }
 }

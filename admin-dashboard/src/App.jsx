@@ -2,14 +2,26 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { ThemeProvider } from "@/contexts/theme-context";
 
+import { AuthProvider } from "@/contexts/auth-context";
+
 import Layout from "@/routes/layout";
 import DashboardPage from "@/routes/dashboard/page";
+import LoginPage from "./routes/login/page";
+import ProtectedRoute from "./routes/protected-routes";
 
 function App() {
     const router = createBrowserRouter([
         {
+            path: "/login",
+            element: <LoginPage />,
+        },
+        {
             path: "/",
-            element: <Layout />,
+            element: (
+                <ProtectedRoute>
+                    <Layout />
+                </ProtectedRoute>
+            ),
             children: [
                 {
                     index: true,
@@ -64,9 +76,11 @@ function App() {
     ]);
 
     return (
-        <ThemeProvider storageKey="theme">
-            <RouterProvider router={router} />
-        </ThemeProvider>
+        <AuthProvider>
+            <ThemeProvider storageKey="theme">
+                <RouterProvider router={router} />
+            </ThemeProvider>
+        </AuthProvider>
     );
 }
 

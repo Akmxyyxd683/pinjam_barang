@@ -1,6 +1,7 @@
 class User {
   int? id;
   String name;
+  String? profile_img;
   String role;
   String noTelp;
   String alamat;
@@ -9,6 +10,7 @@ class User {
   User(
       {this.id,
       required this.name,
+      required this.profile_img,
       required this.role,
       required this.noTelp,
       required this.alamat,
@@ -18,6 +20,7 @@ class User {
     return User(
         id: json['id'],
         name: json['name'],
+        profile_img: json['profile_img'],
         role: json['role'],
         noTelp: json['no_telp'],
         alamat: json['alamat'],
@@ -28,6 +31,7 @@ class User {
     return {
       'id': id,
       'name': name,
+      'profile_img': profile_img,
       'role': role,
       'no_telp': noTelp,
       'alamat': alamat,

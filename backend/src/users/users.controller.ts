@@ -4,6 +4,7 @@ import {
   Body,
   HttpException,
   HttpStatus,
+  Get,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { LoginUserDto } from './dto/user.dto';
@@ -23,6 +24,7 @@ export class UsersController {
           id: user.id,
           email: user.email,
           name: user.name,
+          profile_img: user.profile_img,
           role: user.role,
           no_telp: user.no_telp,
           alamat: user.alamat,
@@ -62,6 +64,25 @@ export class UsersController {
           message: 'Invalid username or password',
         },
         HttpStatus.UNAUTHORIZED,
+      );
+    }
+  }
+
+  @Get('users')
+  async findAll() {
+    try {
+      const users = await this.usersService.findAll();
+      return {
+        success: true,
+        data: users,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          success: false,
+          message: error.message || 'Failed to fetch users',
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }

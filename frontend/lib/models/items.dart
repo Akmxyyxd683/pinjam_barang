@@ -8,6 +8,7 @@ class Items {
   int? id;
   int categoryId;
   String name;
+  String? img_url;
   DateTime createAt;
   ItemStatus status;
 
@@ -15,6 +16,7 @@ class Items {
     this.id,
     required this.categoryId,
     required this.name,
+    required this.img_url,
     required this.createAt,
     required this.status,
   });
@@ -24,6 +26,7 @@ class Items {
       id: json['id'],
       categoryId: json['category_id'],
       name: json['name'],
+      img_url: json['img_url'],
       createAt: DateTime.parse(json['create_at']),
       status: ItemStatus.values.firstWhere(
         (e) => e.toString().split('.').last == json['status'],
@@ -37,6 +40,7 @@ class Items {
       'id': id,
       'category_id': categoryId,
       'name': name,
+      'img_url': img_url,
       'create_at': createAt.toIso8601String(),
       'status': status.toString().split('.').last,
     };

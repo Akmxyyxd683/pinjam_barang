@@ -1,4 +1,5 @@
 import { BorrowingTransaction } from 'src/borrowing_transactions/entities/borrowing_transaction.entity';
+import { text } from 'stream/consumers';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
@@ -8,6 +9,9 @@ export class User {
 
   @Column({ nullable: true })
   name: string;
+
+  @Column({ type: 'text', nullable: true })
+  profile_img: string | null;
 
   @Column()
   role: string;

@@ -35,7 +35,8 @@ export class BorrowingTransactionsController {
   @Get()
   async findAll() {
     try {
-      return await this.borrowingTransactionsService.findAll();
+      const transactions = await this.borrowingTransactionsService.findAll();
+      return { success: true, data: transactions };
     } catch (error) {
       throw new HttpException(
         `Gagal mendapatkan semua history`,
