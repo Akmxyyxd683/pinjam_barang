@@ -52,6 +52,7 @@ export class UsersController {
           id: user.id,
           email: user.email,
           name: user.name,
+          profile_img: user.profile_img,
           role: user.role,
           no_telp: user.no_telp,
           alamat: user.alamat,

@@ -25,16 +25,6 @@ export const navbarLinks = [
                 icon: Home,
                 path: "/",
             },
-            {
-                label: "Analytics",
-                icon: ChartColumn,
-                path: "/analytics",
-            },
-            {
-                label: "Reports",
-                icon: NotepadText,
-                path: "/reports",
-            },
         ],
     },
     {
@@ -81,9 +71,9 @@ export const navbarLinks = [
         title: "Manajemen Karyawan",
         links: [
             {
-                label: "Daftar Karyawan",
+                label: "List Karyawan",
                 icon: Users,
-                path: "/daftar-karyawan",
+                path: "/list-karyawan",
             },
             {
                 label: "Register Karyawan",

@@ -23,7 +23,8 @@ class Profile extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   CircleAvatar(
-                    backgroundImage: AssetImage("images/alif.png"),
+                    backgroundImage:
+                        NetworkImage("${userController.profile_img.value}"),
                   ),
                 ],
               ),
@@ -130,7 +131,10 @@ class Profile extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  final auth = Get.find<AuthController>();
+                  auth.logout();
+                },
                 child: Row(
                   children: [
                     Icon(Icons.logout),

@@ -77,7 +77,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             Padding(
               padding: EdgeInsets.only(top: 10, left: 20, right: 30),
               child: Obx(() => SizedBox(
-                    height: 400,
+                    height: 600,
                     child: ListView.separated(
                       itemCount: itemsController.items.length,
                       separatorBuilder: (context, index) =>

@@ -60,7 +60,7 @@ function App() {
                     element: <h1 className="title">Inventory</h1>,
                 },
                 {
-                    path: "daftar-karyawan",
+                    path: "list-karyawan",
                     element: <h1 className="title">Daftar Karyawan</h1>,
                 },
                 {
@@ -76,11 +76,11 @@ function App() {
     ]);
 
     return (
-        <ThemeProvider storageKey="theme">
-            <AuthProvider>
+        <AuthProvider>
+            <ThemeProvider storageKey="theme">
                 <RouterProvider router={router} />
-            </AuthProvider>
-        </ThemeProvider>
+            </ThemeProvider>
+        </AuthProvider>
     );
 }
 

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useAuth } from "@/contexts/auth-context";
+import { useAuth } from "@/hooks/use-auth";
 import warungData from "@/assets/wd-logo.png";
 
 const LoginPage = () => {
-    const { login } = useAuth();
+    const { setUser } = useAuth();
     const navigate = useNavigate();
     const [form, setForm] = useState({ email: "", password: "" });
     const [error, setError] = useState("");
@@ -14,7 +14,7 @@ const LoginPage = () => {
         e.preventDefault();
         try {
             const res = await axios.post("http://localhost:3000/auth/login", form);
-            login(res.data.data);
+            setUser(res.data.data);
             navigate("/");
         } catch (err) {
             setError(err.response?.data?.message || "Login failed");

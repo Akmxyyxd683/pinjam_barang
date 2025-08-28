@@ -1,19 +1,50 @@
 import { useTheme } from "@/hooks/use-theme";
 
-import { Bell, ChevronsLeft, Moon, Search, Sun } from "lucide-react";
+import { Bell, ChevronsLeft, Moon, Search, Sun, LogOut } from "lucide-react";
 
 import profileImg from "@/assets/profile-image.jpg";
 
 import PropTypes from "prop-types";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 
 export const Header = ({ collapsed, setCollapsed }) => {
     const { theme, setTheme } = useTheme();
     const { user } = useAuth();
 
-    const profileSrc = user?.profileImage || user?.profile_image || user?.profileImg || user?.image || profileImg;
+    const [open, setOpen] = useState(false);
+    const menuRef = useRef(null);
+
+    // Tutup menu kalau klik di luar
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    const handleLogout = () => {
+        const confirmLogout = window.confirm("Apakah anda ingin logout?");
+        if (confirmLogout) {
+            // Hapus token atau data login yang kamu simpan
+            localStorage.removeItem("token");
+            sessionStorage.removeItem("token");
+
+            // (Opsional) reset user state kalau pakai context/auth provider
+            // setUser(null);
+
+            alert("Logout berhasil!");
+            window.location.href = "/login";
+        }
+    };
+
+    const profileSrc = user?.profile_img;
 
     return (
         <header className="relative z-10 flex h-[60px] items-center justify-between bg-white px-4 shadow-md transition-colors dark:bg-slate-900">
@@ -55,14 +86,32 @@ export const Header = ({ collapsed, setCollapsed }) => {
                 <button className="btn-ghost size-10">
                     <Bell size={20} />
                 </button>
-                <button className="size-10 overflow-hidden rounded-full">
-                    {}
-                    <img
-                        src={profileSrc}
-                        alt="profile image"
-                        className="size-full object-cover"
-                    />
-                </button>
+                <div
+                    className="relative"
+                    ref={menuRef}
+                >
+                    <button
+                        className="size-10 overflow-hidden rounded-full"
+                        onClick={() => setOpen(!open)}
+                    >
+                        <img
+                            src={profileSrc}
+                            alt="profile image"
+                            className="size-full object-cover"
+                        />
+                    </button>
+                    {open && (
+                        <div className="absolute right-0 mt-2 w-40 rounded-lg bg-white shadow-lg ring-1 ring-black/5">
+                            <button
+                                onClick={handleLogout} // ganti dengan fungsi logout-mu
+                                className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+                            >
+                                <LogOut size={18} />
+                                <span>Logout</span>
+                            </button>
+                        </div>
+                    )}
+                </div>
             </div>
         </header>
     );

@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 import PropTypes from "prop-types";
 
@@ -10,20 +10,26 @@ const initialState = {
 export const AuthProviderContext = createContext(initialState);
 
 export function AuthProvider({ children, storageKey = "user", ...props }) {
-    const [user, setUserState] = useState(() => {
+    const [user, setUserState] = useState(null);
+
+    useEffect(() => {
         try {
-            const stored = localStorage.getItem(storageKey);
-            return stored ? JSON.parse(stored) : null;
+            const stored = window.localStorage.getItem(storageKey);
+            setUserState(stored ? JSON.parse(stored) : null);
         } catch {
-            return null;
+            setUserState(null);
         }
-    });
+    }, [storageKey]);
 
     const setUser = (userData) => {
-        if (userData) {
-            localStorage.setItem(storageKey, JSON.stringify(userData));
-        } else {
-            localStorage.removeItem(storageKey);
+        try {
+            if (userData) {
+                window.localStorage.setItem(storageKey, JSON.stringify(userData));
+            } else {
+                window.localStorage.removeItem(storageKey);
+            }
+        } catch {
+            // ignore storage errors
         }
         setUserState(userData);
     };

@@ -94,7 +94,9 @@ class BorrowFormController extends GetxController {
 }
 
 class NewItems extends StatelessWidget {
-  const NewItems({Key? key}) : super(key: key);
+  final dynamic item;
+  final dynamic category;
+  const NewItems({super.key, this.item, this.category});
 
   @override
   Widget build(BuildContext context) {
@@ -144,25 +146,23 @@ class NewItems extends StatelessWidget {
                 child: Row(
                   children: [
                     Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF8F9FA),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Icon(
-                        Icons.laptop_mac,
-                        size: 30,
-                        color: Colors.grey,
-                      ),
-                    ),
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF8F9FA),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Image.network(
+                          "${item.img_url}",
+                          fit: BoxFit.cover,
+                        )),
                     const SizedBox(width: 16),
-                    const Expanded(
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'MacBook Pro 13"',
+                            item.name ?? 'Detail item',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -170,7 +170,7 @@ class NewItems extends StatelessWidget {
                           ),
                           SizedBox(height: 4),
                           Text(
-                            'Laptop • MB-001',
+                            '${category.name} • ${category.type}',
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey,

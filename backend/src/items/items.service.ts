@@ -41,11 +41,16 @@ export class ItemsService {
   }
 
   async findAll(): Promise<Item[]> {
-    return this.itemRepository.find();
+    return this.itemRepository.find({
+      relations: { category: true },
+    });
   }
 
   async findOne(id: number): Promise<Item> {
-    const item = await this.itemRepository.findOne({ where: { id } });
+    const item = await this.itemRepository.findOne({
+      where: { id },
+      relations: { category: true },
+    });
     if (!item) throw new NotFoundException('Item not found');
     return item;
   }

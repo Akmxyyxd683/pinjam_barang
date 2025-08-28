@@ -61,9 +61,9 @@ class ItemsDetailPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                         color: Colors.grey[100],
                       ),
-                      child: Image.asset(
-                        'images/wd-logo.png',
-                        fit: BoxFit.contain,
+                      child: Image.network(
+                        "${item.img_url}",
+                        fit: BoxFit.cover,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -234,8 +234,13 @@ class ItemsDetailPage extends StatelessWidget {
             Expanded(
               child: ElevatedButton.icon(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => NewItems()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewItems(
+                                item: item,
+                                category: category,
+                              )));
                 },
                 icon: const Icon(Icons.add),
                 label: const Text('Ajukan Pinjaman'),

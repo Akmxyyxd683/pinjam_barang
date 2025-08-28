@@ -86,129 +86,139 @@ class HomeScreen extends StatelessWidget {
                           TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
                     ),
                   ),
-                  Obx(() => SizedBox(
-                        height: 400,
-                        child: ListView.separated(
-                          itemCount: itemsController.items.length,
-                          separatorBuilder: (context, index) =>
-                              const SizedBox(height: 8),
-                          itemBuilder: (context, index) {
-                            final items = itemsController.items[index];
-                            final category =
-                                categoryController.categories[index];
+                  Obx(() {
+                    if (itemsController.isLoading.value) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
 
-                            return InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ItemsDetailPage(
-                                      item: items,
-                                      category: category,
-                                    ),
+                    if (itemsController.items.isEmpty) {
+                      return const Center(
+                        child: Text("Data tidak ditemukan"),
+                      );
+                    }
+                    return SizedBox(
+                      height: 400,
+                      child: ListView.separated(
+                        itemCount: itemsController.items.length,
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 8),
+                        itemBuilder: (context, index) {
+                          final items = itemsController.items[index];
+                          final category = items.category;
+
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ItemsDetailPage(
+                                    item: items,
+                                    category: category,
                                   ),
-                                );
-                              },
-                              borderRadius: BorderRadius.circular(20),
-                              child: Card(
-                                elevation: 2,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 12),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child:
-                                            Image.asset('images/wd-logo.png'),
+                              );
+                            },
+                            borderRadius: BorderRadius.circular(20),
+                            child: Card(
+                              elevation: 2,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 12),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Image.network(
+                                        "${items.img_url}",
+                                        fit: BoxFit.cover,
                                       ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 20),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  items.name,
-                                                  style: TextStyle(
-                                                    fontSize: 22,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 20),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                items.name,
+                                                style: TextStyle(
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.w500,
                                                 ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(category?.name ??
-                                                    'category tidak ditemukan'),
-                                                Padding(
-                                                  padding:
-                                                      EdgeInsets.only(left: 5),
-                                                  child: Text(category?.type ??
-                                                      'Type tidak diketahui'),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  margin:
-                                                      EdgeInsets.only(top: 10),
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 8,
-                                                      vertical: 4),
-                                                  decoration: BoxDecoration(
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(category?.name ??
+                                                  'category tidak ditemukan'),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 5),
+                                                child: Text(category?.type ??
+                                                    'Type tidak diketahui'),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                margin:
+                                                    EdgeInsets.only(top: 10),
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 8, vertical: 4),
+                                                decoration: BoxDecoration(
+                                                  color: getStatusColor(
+                                                          items.status)
+                                                      .withOpacity(0.1),
+                                                  border: Border.all(
                                                     color: getStatusColor(
-                                                            items.status)
-                                                        .withOpacity(0.1),
-                                                    border: Border.all(
-                                                      color: getStatusColor(
-                                                          items.status),
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                12)),
+                                                        items.status),
                                                   ),
-                                                  child: Text(
-                                                    items.status
-                                                        .toString()
-                                                        .split('.')
-                                                        .last,
-                                                    style: TextStyle(
-                                                      fontSize: 12,
-                                                      color:
-                                                          Colors.grey.shade800,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(12)),
+                                                ),
+                                                child: Text(
+                                                  items.status
+                                                      .toString()
+                                                      .split('.')
+                                                      .last,
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.grey.shade800,
+                                                    fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            );
-                          },
-                        ),
-                      )),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }),
                   ElevatedButton(
                       onPressed: () async {
                         await Get.to(NewItems());
