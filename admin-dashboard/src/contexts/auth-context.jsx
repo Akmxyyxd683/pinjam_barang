@@ -9,7 +9,7 @@ const initialState = {
 
 export const AuthProviderContext = createContext(initialState);
 
-export function AuthProvider({ children, storageKey = "user", ...props }) {
+export function AuthProvider({ children, storageKey = "admin", ...props }) {
     const [user, setUserState] = useState(null);
 
     useEffect(() => {

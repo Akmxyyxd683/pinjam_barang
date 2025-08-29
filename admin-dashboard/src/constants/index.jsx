@@ -43,7 +43,7 @@ export const navbarLinks = [
             {
                 label: "Riwayat Peminjaman",
                 icon: Clock,
-                path: "/verified-customers",
+                path: "/riwayat-peminjaman",
             },
         ],
     },
@@ -58,7 +58,7 @@ export const navbarLinks = [
             {
                 label: "Tambah Barang",
                 icon: PackagePlus,
-                path: "/new-product",
+                path: "/tambah-barang",
             },
             {
                 label: "Kategori",

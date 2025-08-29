@@ -8,6 +8,11 @@ import Layout from "@/routes/layout";
 import DashboardPage from "@/routes/dashboard/page";
 import LoginPage from "./routes/login/page";
 import ProtectedRoute from "./routes/protected-routes";
+import ListKaryawanPage from "./routes/list-karyawan/page";
+import RegisterKaryawanPage from "./routes/register-karyawan/page";
+import DaftarBarangPage from "./routes/daftar-barang/page";
+import TambahBarangPage from "./routes/tambah-barang/page";
+import RiwayatPeminjamanPage from "./routes/riwayat-peminjaman/page";
 
 function App() {
     const router = createBrowserRouter([
@@ -28,14 +33,6 @@ function App() {
                     element: <DashboardPage />,
                 },
                 {
-                    path: "analytics",
-                    element: <h1 className="title">Analytics</h1>,
-                },
-                {
-                    path: "reports",
-                    element: <h1 className="title">Reports</h1>,
-                },
-                {
                     path: "customers",
                     element: <h1 className="title">Customers</h1>,
                 },
@@ -44,16 +41,16 @@ function App() {
                     element: <h1 className="title">New Customer</h1>,
                 },
                 {
-                    path: "verified-customers",
-                    element: <h1 className="title">Verified Customers</h1>,
+                    path: "riwayat-peminjaman",
+                    element: <RiwayatPeminjamanPage />,
                 },
                 {
                     path: "products",
-                    element: <h1 className="title">Products</h1>,
+                    element: <DaftarBarangPage />,
                 },
                 {
-                    path: "new-product",
-                    element: <h1 className="title">New Product</h1>,
+                    path: "tambah-barang",
+                    element: <TambahBarangPage />,
                 },
                 {
                     path: "inventory",
@@ -61,11 +58,11 @@ function App() {
                 },
                 {
                     path: "list-karyawan",
-                    element: <h1 className="title">Daftar Karyawan</h1>,
+                    element: <ListKaryawanPage />,
                 },
                 {
                     path: "register-karyawan",
-                    element: <h1 className="title">Register Karyawan</h1>,
+                    element: <RegisterKaryawanPage />,
                 },
                 {
                     path: "settings",
@@ -76,7 +73,7 @@ function App() {
     ]);
 
     return (
-        <AuthProvider>
+        <AuthProvider storageKey="admin">
             <ThemeProvider storageKey="theme">
                 <RouterProvider router={router} />
             </ThemeProvider>

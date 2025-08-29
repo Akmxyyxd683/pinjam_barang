@@ -14,8 +14,20 @@ const LoginPage = () => {
         e.preventDefault();
         try {
             const res = await axios.post("http://localhost:3000/auth/login", form);
-            setUser(res.data.data);
-            navigate("/");
+            const user = res?.data?.data;
+            if (!user?.role) {
+                setError("Login response tidak menyertakan role.");
+                return;
+            }
+            if (user.role !== "admin") {
+                setError("Akun ini bukan admin. Akses ditolak.");
+                return;
+            }
+
+            setUser(user);
+
+            const from = location.state?.from?.pathname || "/";
+            navigate(from, { replace: true });
         } catch (err) {
             setError(err.response?.data?.message || "Login failed");
         }
