@@ -48,6 +48,8 @@ const RiwayatPeminjamanPage = () => {
                                 <th className="px-4 py-2">No</th>
                                 <th className="px-4 py-2">Peminjam</th>
                                 <th className="px-4 py-2">Barang</th>
+                                <th className="px-4 py-2">Keterangan</th>
+                                <th className="px-4 py-2">Lokasi</th>
                                 <th className="px-4 py-2">Tanggal Pinjam</th>
                                 <th className="px-4 py-2">Jatuh Tempo</th>
                                 <th className="px-4 py-2">Tanggal Kembali</th>
@@ -62,6 +64,8 @@ const RiwayatPeminjamanPage = () => {
                                     <td className="px-4 py-2">{index + 1}</td>
                                     <td className="px-4 py-2">{tx.userName}</td>
                                     <td className="px-4 py-2">{tx.itemName}</td>
+                                    <td className="px-4 py-2">{tx.description || "-"}</td>
+                                    <td className="px-4 py-2">{tx.location || "-"}</td>
                                     <td className="px-4 py-2">{formatDate(tx.borrowed_at)}</td>
                                     <td className="px-4 py-2">{formatDate(tx.due_date)}</td>
                                     <td className="px-4 py-2">{formatDate(tx.returned_at)}</td>

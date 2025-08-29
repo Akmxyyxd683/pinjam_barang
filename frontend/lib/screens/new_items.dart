@@ -1,8 +1,18 @@
+import 'package:frontend/widget/bottom_nav.dart';
 import 'package:get/get.dart';
+import 'package:frontend/controllers/auth_controller.dart';
+import 'package:frontend/models/borrowing_transaction.dart';
+import 'package:frontend/services/api_services.dart';
 import 'package:flutter/material.dart';
 
 class BorrowFormController extends GetxController {
+  BorrowFormController({required this.itemId});
+
+  final int itemId;
   final formKey = GlobalKey<FormState>();
+
+  final ApiService apiService = ApiService();
+  final UserController userController = Get.find<UserController>();
 
   // Observable variables
   final startDate = Rxn<DateTime>(DateTime.now().add(const Duration(days: 1)));
@@ -52,13 +62,23 @@ class BorrowFormController extends GetxController {
     }
   }
 
-  void submitForm() {
+  Future<void> submitForm() async {
     if (formKey.currentState!.validate()) {
       isLoading.value = true;
+      try {
+        final userId = int.parse(userController.id.value);
+        final transaction = BorrowingTransaction(
+          userId: userId,
+          itemId: itemId,
+          borrowedAt: startDate.value!,
+          dueDate: returnDate.value!,
+          returnedAt: returnDate.value!,
+          description: descriptionController.text,
+          location: locationController.text,
+        );
 
-      // Simulate API call
-      Future.delayed(const Duration(seconds: 2), () {
-        isLoading.value = false;
+        await apiService.createBorrowingTransaction(transaction);
+        Get.offAll(() => BottomNav());
         Get.snackbar(
           'Berhasil',
           'Peminjaman berhasil diajukan!',
@@ -66,8 +86,17 @@ class BorrowFormController extends GetxController {
           colorText: Colors.white,
           snackPosition: SnackPosition.TOP,
         );
-        Get.back(); // Go back to previous screen
-      });
+      } catch (e) {
+        Get.snackbar(
+          'Error',
+          'Gagal mengajukan peminjaman',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.TOP,
+        );
+      } finally {
+        isLoading.value = false;
+      }
     }
   }
 
@@ -100,7 +129,7 @@ class NewItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(BorrowFormController());
+    final controller = Get.put(BorrowFormController(itemId: item.id));
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
@@ -416,7 +445,7 @@ class NewItems extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: controller.isLoading.value
                               ? null
-                              : controller.submitForm,
+                              : () => controller.submitForm(),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF007BFF),
                             foregroundColor: Colors.white,

@@ -8,6 +8,14 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+export enum BorrowStatus {
+  REQUESTED = 'REQUESTED',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+  RETURNED = 'RETURNED',
+  CANCELLED = 'CANCELLED',
+}
+
 @Entity()
 export class BorrowingTransaction {
   @PrimaryGeneratedColumn()
@@ -27,6 +35,12 @@ export class BorrowingTransaction {
 
   @Column()
   returned_at: Date;
+
+  @Column({ nullable: true })
+  description: string;
+
+  @Column({ nullable: true })
+  location: string;
 
   @ManyToOne(() => User, (user) => user.borrowingTransactions)
   @JoinColumn({ name: 'user_id' })

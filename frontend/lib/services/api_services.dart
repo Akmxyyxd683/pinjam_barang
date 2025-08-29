@@ -101,13 +101,13 @@ class ApiService {
       BorrowingTransaction transaction) async {
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/borrowing-transactions'),
+        Uri.parse('$baseUrl/borrowing-transactions/add'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode(transaction.toMap()),
       );
 
       if (response.statusCode == 201) {
-        final data = json.decode(response.body)['data'];
+        final data = json.decode(response.body);
         return BorrowingTransaction.fromMap(data);
       } else {
         throw Exception(

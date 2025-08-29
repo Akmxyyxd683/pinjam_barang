@@ -5,4 +5,6 @@ export class BorrowingTransactionDto {
   borrowed_at: Date;
   due_date: Date;
   returned_at: Date;
+  description?: string;
+  location?: string;
 }

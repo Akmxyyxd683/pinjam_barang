@@ -5,6 +5,8 @@ class BorrowingTransaction {
   DateTime borrowedAt;
   DateTime dueDate;
   DateTime returnedAt;
+  String? description;
+  String? location;
 
   BorrowingTransaction({
     this.id,
@@ -13,6 +15,8 @@ class BorrowingTransaction {
     required this.borrowedAt,
     required this.dueDate,
     required this.returnedAt,
+    required this.description,
+    required this.location,
   });
 
   factory BorrowingTransaction.fromMap(Map<String, dynamic> json) {
@@ -23,6 +27,8 @@ class BorrowingTransaction {
       borrowedAt: DateTime.parse(json['borrowed_at']),
       dueDate: DateTime.parse(json['due_date']),
       returnedAt: DateTime.parse(json['returned_at']),
+      description: json['description'],
+      location: json['location'],
     );
   }
 
@@ -34,6 +40,8 @@ class BorrowingTransaction {
       'borrowed_at': borrowedAt.toIso8601String(),
       'due_date': dueDate.toIso8601String(),
       'returned_at': returnedAt.toIso8601String(),
+      'description': description,
+      'location': location,
     };
   }
 }
