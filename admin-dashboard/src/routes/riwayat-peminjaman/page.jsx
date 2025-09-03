@@ -11,7 +11,7 @@ const RiwayatPeminjamanPage = () => {
             axios.get("http://localhost:3000/items"),
         ])
             .then(([txRes, usersRes, itemsRes]) => {
-                const txData = txRes.data.data || [];
+                const txData = (txRes.data.data || []).filter((tx) => tx.status !== "REQUESTED" && tx.status !== "REJECTED");
                 const users = usersRes.data.data || [];
                 const items = itemsRes.data.data || [];
                 const formatted = txData.map((tx) => {

@@ -46,7 +46,7 @@ const DashboardPage = () => {
             .then(([itemsRes, usersRes, borrowedItemsRes]) => {
                 const itemsData = itemsRes.data.data || [];
                 const usersData = usersRes.data.data || [];
-                const borrowedItemsData = borrowedItemsRes.data.data || [];
+                const borrowedItemsData = (borrowedItemsRes.data.data || []).filter((tx) => tx.status !== "REQUESTED" && tx.status !== "REJECTED");
                 setItems(itemsData);
                 const newStats = {
                     totalItems: itemsData.length,

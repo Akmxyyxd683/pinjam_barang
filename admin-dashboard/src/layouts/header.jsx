@@ -44,7 +44,7 @@ export const Header = ({ collapsed, setCollapsed }) => {
         }
     };
 
-    const profileSrc = user?.profile_img;
+    const profileSrc = user?.profile_img || profileImg;
 
     return (
         <header className="relative z-10 flex h-[60px] items-center justify-between bg-white px-4 shadow-md transition-colors dark:bg-slate-900">

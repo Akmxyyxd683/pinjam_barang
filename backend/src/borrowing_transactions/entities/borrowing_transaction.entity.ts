@@ -27,13 +27,22 @@ export class BorrowingTransaction {
   @Column()
   item_id: number;
 
-  @Column()
+  @Column({ type: 'enum', enum: BorrowStatus, default: BorrowStatus.REQUESTED })
+  status: BorrowStatus;
+
+  @Column({ type: 'timestamp', nullable: true })
+  requested_at: Date;
+
+  @Column({ type: 'timestamp', nullable: true })
+  approved_at: Date;
+
+  @Column({ type: 'timestamp', nullable: true })
   borrowed_at: Date;
 
-  @Column()
+  @Column({ type: 'timestamp', nullable: true })
   due_date: Date;
 
-  @Column()
+  @Column({ type: 'timestamp', nullable: true })
   returned_at: Date;
 
   @Column({ nullable: true })

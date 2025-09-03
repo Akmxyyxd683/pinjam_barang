@@ -33,7 +33,7 @@ export const navbarLinks = [
             {
                 label: "Approve Peminjaman",
                 icon: CheckCircle,
-                path: "/customers",
+                path: "/approve-peminjaman",
             },
             {
                 label: "Barang Dipinjam",

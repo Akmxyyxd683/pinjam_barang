@@ -13,6 +13,7 @@ import RegisterKaryawanPage from "./routes/register-karyawan/page";
 import DaftarBarangPage from "./routes/daftar-barang/page";
 import TambahBarangPage from "./routes/tambah-barang/page";
 import RiwayatPeminjamanPage from "./routes/riwayat-peminjaman/page";
+import ApprovePeminjamanPage from "./routes/approve-peminjaman/page";
 
 function App() {
     const router = createBrowserRouter([
@@ -33,8 +34,8 @@ function App() {
                     element: <DashboardPage />,
                 },
                 {
-                    path: "customers",
-                    element: <h1 className="title">Customers</h1>,
+                    path: "approve-peminjaman",
+                    element: <ApprovePeminjamanPage />,
                 },
                 {
                     path: "new-customer",

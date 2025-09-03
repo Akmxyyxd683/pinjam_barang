@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/use-auth";
+import PropTypes from "prop-types";
 
 const ProtectedRoute = ({ children }) => {
     const { user } = useAuth();
@@ -15,3 +16,7 @@ const ProtectedRoute = ({ children }) => {
 };
 
 export default ProtectedRoute;
+
+ProtectedRoute.propTypes = {
+    children: PropTypes.node,
+};
