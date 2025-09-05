@@ -30,7 +30,11 @@ export class BorrowingTransaction {
   @Column({ type: 'enum', enum: BorrowStatus, default: BorrowStatus.REQUESTED })
   status: BorrowStatus;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({
+    type: 'timestamp',
+    nullable: true,
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   requested_at: Date;
 
   @Column({ type: 'timestamp', nullable: true })

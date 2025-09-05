@@ -4,7 +4,6 @@ import 'package:frontend/controllers/category_controller.dart';
 import 'package:frontend/controllers/items_controller.dart';
 import 'package:frontend/models/items.dart';
 import 'package:frontend/screens/items_detail_page.dart';
-import 'package:frontend/screens/new_items.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -99,7 +98,7 @@ class HomeScreen extends StatelessWidget {
                       );
                     }
                     return SizedBox(
-                      height: 400,
+                      height: 500,
                       child: ListView.separated(
                         itemCount: itemsController.items.length,
                         separatorBuilder: (context, index) =>
@@ -219,33 +218,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     );
                   }),
-                  ElevatedButton(
-                      onPressed: () async {
-                        await Get.to(NewItems());
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF0288D1),
-                        padding: EdgeInsets.symmetric(vertical: 20),
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.add,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            "Ajukan pinjaman",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 20),
-                          )
-                        ],
-                      ))
                 ],
               ),
             )),

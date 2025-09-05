@@ -22,12 +22,15 @@ export class BorrowingTransactionsService {
   }
 
   async findAll(): Promise<BorrowingTransaction[]> {
-    return this.transactionRepository.find();
+    return this.transactionRepository.find({
+      relations: { item: true },
+    });
   }
 
   async findOne(id: number): Promise<BorrowingTransaction | null> {
     const transaction = await this.transactionRepository.findOne({
       where: { id },
+      relations: { item: true },
     });
     if (!transaction) {
       throw new NotFoundException('History not found');

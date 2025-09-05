@@ -1,3 +1,4 @@
+import 'package:frontend/controllers/borrowing_transaction_controller.dart';
 import 'package:frontend/widget/bottom_nav.dart';
 import 'package:get/get.dart';
 import 'package:frontend/controllers/auth_controller.dart';
@@ -70,6 +71,9 @@ class BorrowFormController extends GetxController {
         final transaction = BorrowingTransaction(
           userId: userId,
           itemId: itemId,
+          status: BorrowStatus.requested,
+          requestedAt: DateTime.now(),
+          approvedAt: null,
           borrowedAt: startDate.value!,
           dueDate: returnDate.value!,
           returnedAt: returnDate.value!,
@@ -78,6 +82,9 @@ class BorrowFormController extends GetxController {
         );
 
         await apiService.createBorrowingTransaction(transaction);
+        if (Get.isRegistered<BorrowingTransactionController>()) {
+          await Get.find<BorrowingTransactionController>().fetchTransactions();
+        }
         Get.offAll(() => BottomNav());
         Get.snackbar(
           'Berhasil',
